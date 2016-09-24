@@ -4,14 +4,13 @@ times=500
 N=2000
 expPi=[]
 for j in range(times):
-    count=0
+    count=0 #initialise counter
     for i in range(N):
-        x=2*np.random.random(size=N)-1
-        y=2*np.random.random(size=N)-1
+        x=2*np.random.random(size=N)-1 #generate random x coordinate
+        y=2*np.random.random(size=N)-1 #generate random y coordinate
         if(x[i]**2+y[i]**2<1): #inside circle
             count=count+1
     expPi.append(4.0*count/N)
-    #print 4.0*count/N
-#print expPi
+#displaying distribution as a hitogram
 plt.hist(expPi,bins=np.linspace(2.9,3.3,1000))
 plt.show()
