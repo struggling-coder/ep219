@@ -3,7 +3,7 @@ import matplotlib.mlab as mlab
 import numpy as np
 import math
 
-l=5 #parameter lambda
+l=10 #parameter lambda
 for i in range(0, 100):
     prob=math.exp(-l) * math.pow(l,i) / math.factorial(i) #evaluating value at i
     plt.plot([i,i],[0,prob],'r') #plotting graph
