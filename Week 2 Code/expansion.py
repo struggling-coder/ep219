@@ -29,9 +29,10 @@ x = np.linspace(0, 15, 300)
 plt.plot(x, slope * x + intercept, label="Coefficient of expansion = "+str(slope))
 
 # Show plot and prediction
-p_length = lope * 15 + intercept
+p_length = slope * 15 + intercept
 plt.xlabel("Temperatute in Celsius")
 plt.ylabel("Length in mm")
-plt.plot()
+plt.scatter(15.0, p_length, s=16)
+plt.figtext(0.78, .82, '$(15, %5.2f)$' %(p_length), fontsize=14, horizontalalignment='center',verticalalignment='center')
 
 plt.show()
