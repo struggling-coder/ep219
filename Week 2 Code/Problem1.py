@@ -22,8 +22,7 @@ x, y = multivariate_normal.rvs([0, 0], [[9.0, -2.0], [-2.0, 6.0]], 4000000).T
 xedges = np.arange(-6.0, 6.06, 0.06) # x-coordinate of edges of  bins
 yedges = np.arange(-6.0, 6.06, 0.06) # y- coordinate of edges of bins
 H, xedges, yedges = np.histogram2d(y, x, bins=(xedges, yedges))
-fig = plt.figure(figsize=(14, 14))
-ax1 = fig.add_subplot(121)
+ax1 = plt.figure().add_subplot(111)
 ax1.set_title('2D Histogram')
 X, Y = np.meshgrid(xedges, yedges)
 ax1.pcolormesh(X, Y, H) # 2D histogram with red colour for larger numbers and blue for smaller
@@ -31,7 +30,7 @@ ax1.set_aspect('equal')
 
 # Calculating z
 z = (6*x**2 + 4*x*y + 9*y**2)/50
-ax2 = fig.add_subplot(122)
+ax2 = plt.figure().add_subplot(111)
 ax2.hist(z, 100, (0, 15.0)) # 100 bins for z between 0 and 15
 mean_obs = sum(z)/len(z) # Observed Mean
 sd_obs = (sum((z-mean_obs)**2)/(len(z)-1))**0.5 # Observed standard deviation
