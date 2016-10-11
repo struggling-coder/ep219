@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 
 # Plotting the contours
-x1, y1 = np.mgrid[-6:6:.01, -6:6:.01] 
+x1, y1 = np.mgrid[-6:6:.01, -6:6:.01]
 pos = np.empty(x1.shape + (2,))
 pos[:, :, 0] = x1
 pos[:, :, 1] = y1
-rv1 = multivariate_normal([0, 0], [[9.0, -2.0], [-2.0, 6.0]]) 
+rv1 = multivariate_normal([0, 0], [[9.0, -2.0], [-2.0, 6.0]])
 # The first argument is the mean and second is the covariance matrix
 plt.axis('equal')
 plt.contour(x1, y1, rv1.pdf(pos)) # Creates contour plot
@@ -38,3 +38,4 @@ sd_obs = (sum((z-mean_obs)**2)/(len(z)-1))**0.5 # Observed standard deviation
 print('The way it is written, z is chi-square distributed with f=2,\nwhich is an exponential distribution as can be seen in the histogram.')
 print('Estimate of mean: %f , Expected mean: 2.0' %(mean_obs))
 print('Estimate of standard deviation: %f, Expected standard deviation: 2.0' %(sd_obs))
+plt.show()
