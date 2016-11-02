@@ -11,7 +11,9 @@ for e_raw in file.read(open(DATA)).split('\r\n'):
 
 # Calculate and display the required output
 mean = count / index # mean
-sd = math.sqrt( count2 / index - mean ** 2 ) # standard deviation
-fluctuation = sum([abs(e - mean) / index for e in values])
-print "Mean weight: %5.2f kg\nError on the mean weight: %5.2f kg" %(mean, sd)
-print "Typical fluctuation about mean: %5.2f kg" %(fluctuation)
+width = math.sqrt( count2 / index - mean ** 2 ) # sample width
+sd = width * math.sqrt( index / (index - 1) ) # best estimate for standard deviation on a single measurement
+sd_mean = sd / math.sqrt(index) # standard deviation on mean
+print "Mean weight: %5.2f kg\nError on the mean weight: %5.2f kg" %(mean, sd_mean)
+print "Typical fluctuation of weight of each baby panda: %5.2f kg" %(sd)
+print "Sample width: %5.2f kg" %(width)
