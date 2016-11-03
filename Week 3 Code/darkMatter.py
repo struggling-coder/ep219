@@ -3,6 +3,7 @@ import numpy as np
 import math
 import pandas as pd
 from scipy.optimize import fmin,fsolve
+from scipy import stats
 
 # Define data path and initialize variables
 DATA = './recoilenergydata_EP219.csv'
@@ -86,6 +87,7 @@ max_sig = fmin(lambda sig: -logL(sig), 0.1) #searches for minima in -logL, equiv
 logL_max = logL(max_sig)
 root1 = fsolve(logLsig,0.1)
 root2 = fsolve(logLsig,0.3)
+
 ax3.set_xlim(0, 2)
 ax3.set_ylim(59600, 61000)
 ax3.plot([root1,root1],[logL(root1),0],ls='--',color='red')
@@ -101,11 +103,18 @@ ax4 = fig4.add_subplot(111)
 meanSigEvents = []
 for e in range(0,40):
 	meanSigEvents.append(signal(max_sig,e+0.5))
-	print signal(max_sig,e+0.5)
 for i in range(0, len(bgEvents)):
 	meanSigEvents[i] = meanSigEvents[i] + bgEvents[i]
 meanSigHist = ax4.bar(range(0,40),meanSigEvents,alpha=0.6, color = 'red')
 ax4.set_title(r'Signal Events $\sigma=%5.3ffb$'%(max_sig))
 ax4.set_xlabel(r'$E_R$ (in keV)')
 ax4.set_ylabel('Number of events')
+#plt.show()
+
+testStat = 0
+for i in range(len(data)):
+	delSq = bgEvents[i]
+	testStat += ((data[i]-bgEvents[i]) ** 2) / delSq
+pVal = 1 - stats.chi2.cdf(testStat, len(data)-1)
+print pVal
 plt.show()
