@@ -6,19 +6,20 @@ from scipy.optimize import fmin,fsolve
 from scipy import stats
 
 # Define data path and initialize variables
-DATA = './recoilenergydata_EP219.csv'
+DATA = '/Users/sankalpgaur/Desktop/Betu/IIT Bombay/Academics/Sem3/EP219/assignment_3_EP219/recoilenergydata_EP219.csv'
 data = []; num = 0; den = 0.0
 
 def signal(sigma,Er):
-	if 5<Er<15:
+	if 5 < Er < 15:
 		return sigma * 20 * (Er - 5)
-	elif 15<Er<25:
+	elif 15 < Er < 25:
 		return sigma * 20 * (25 - Er)
 	return 0
 
 def background(Er):
 	return 1000 * math.exp(-Er/10)
 @np.vectorize
+
 def logL(sigma):
 	val = 0
 	for i in range(len(data)):
@@ -40,7 +41,6 @@ for e in file.read(open(DATA)).split('\r\n'):
 		continue
 
 #plot data histogram
-
 fig1 = plt.figure()
 ax1 = fig1.add_subplot(111)
 dataHist = ax1.bar(range(0,40),data,alpha=0.3)
@@ -52,27 +52,29 @@ ax1.set_title('Experimental Data and Expected Background')
 
 bgEvents = []
 for e in range(0,40):
-	bgEvents.append(background(e+0.5))
-bgHist = ax1.bar(range(0,40),bgEvents,alpha=0.3, color = 'yellow')
+	bgEvents.append(background(e + 0.5))
+bgHist = ax1.bar(range(0,40), bgEvents, alpha = 0.3, color = 'yellow')
 ax1.legend((dataHist[0], bgHist[0]), ('Data', 'Background'))
 #plt.show()
 
 #plotting mean signal events
 
 #plot theoretical signal histograms
-'''
+
 sigma = [.01,.1,1,10,100]
 for s in sigma:
 	fig2 = plt.figure()
 	ax2 = fig2.add_subplot(111)
-	meanSigEvents = []
+	meanSigEvents = [];
 	for e in range(0,40):
-		meanSigEvents.append(signal(s,e+0.5))
-	meanSigHist = ax2.bar(range(0,40),meanSigEvents,alpha=0.6, color = 'red')
+		meanSigEvents.append(signal(s, e + 0.5))
+	meanSigHist = ax2.bar(range(0,40),meanSigEvents,alpha=0.6, color = 'red'); bgHist = ax2.bar(range(0,40), bgEvents, alpha = 0.3, color = 'yellow')
+	bgHist = ax2.bar(range(0,40), bgEvents, alpha = 0.3, color = 'yellow')
+	ax2.legend((meanSigHist[0], bgHist[0]), ('Data', 'Background'))
 	ax2.set_title(r'Signal Events $\sigma=%5.2ffb$'%(s))
 	ax2.set_xlabel(r'$E_R$ (in keV)')
 	ax2.set_ylabel('Number of events')
-'''
+ 
 
 #plot log likelihood
 sig = np.linspace(0,2,500)
