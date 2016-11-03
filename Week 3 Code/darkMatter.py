@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 import pandas as pd
-from scipy.optimize import fmin
+from scipy.optimize import fmin,fsolve
 
 # Define data path and initialize variables
 DATA = './recoilenergydata_EP219.csv'
@@ -23,6 +23,12 @@ def logL(sigma):
 	for i in range(len(data)):
 		val += data[i]*math.log(signal(sigma,i+0.5)+bgEvents[i]) - signal(sigma,i+0.5)
 	return val
+
+def logLsig(sigma):
+	val = 0
+	for i in range(len(data)):
+		val += data[i]*math.log(signal(sigma,i+0.5)+bgEvents[i]) - signal(sigma,i+0.5)
+	return val + 0.5 - logL_max
 
 #load data
 for e in file.read(open(DATA)).split('\r\n'):
@@ -68,15 +74,19 @@ for s in sigma:
 plt.show()
 '''
 #plot log likelihood
+sig = np.linspace(0,3,500)
 fig3 = plt.figure()
 ax3 = fig3.add_subplot(111)
-sig = np.linspace(0,3,500)
 ax3.plot(sig,logL(sig))
 ax3.set_title("Log likelihood function")
 ax3.set_xlabel(r'$\sigma$')
 ax3.set_ylabel(r'$\ln L$')
 
-max_sig = fmin(lambda sig: -logL(sig), 0.1)
+max_sig = fmin(lambda sig: -logL(sig), 0.1) #searches for minima in -logL, equivalent to maxima in logL
+logL_max = logL(max_sig)
 plt.figtext(0.7, .82, '$\hat \sigma = %5.4f$' %(max_sig),fontsize = 14)
-
 plt.show()
+sigRoots = fsolve(logLsig,0.1)
+print sigRoots
+sigRoots = fsolve(logLsig,0.3)
+print sigRoots
