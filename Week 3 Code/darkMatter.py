@@ -74,7 +74,7 @@ for s in sigma:
 plt.show()
 '''
 #plot log likelihood
-sig = np.linspace(0,3,500)
+sig = np.linspace(0,2,500)
 fig3 = plt.figure()
 ax3 = fig3.add_subplot(111)
 ax3.plot(sig,logL(sig))
@@ -85,8 +85,11 @@ ax3.set_ylabel(r'$\ln L$')
 max_sig = fmin(lambda sig: -logL(sig), 0.1) #searches for minima in -logL, equivalent to maxima in logL
 logL_max = logL(max_sig)
 plt.figtext(0.7, .82, '$\hat \sigma = %5.4f$' %(max_sig),fontsize = 14)
+root1 = fsolve(logLsig,0.1)
+root2 = fsolve(logLsig,0.3)
+ax3.set_xlim(0, 2)
+ax3.set_ylim(59600, 61000)
+ax3.plot([root1,root1],[logL(root1),0],ls='--',color='red')
+ax3.plot([root2,root2],[logL(root2),0],ls='--',color='red')
+
 plt.show()
-sigRoots = fsolve(logLsig,0.1)
-print sigRoots
-sigRoots = fsolve(logLsig,0.3)
-print sigRoots
