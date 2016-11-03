@@ -39,21 +39,21 @@ for e in file.read(open(DATA)).split('\r\n'):
 		continue
 
 #plot data histogram
-'''
+
 fig1 = plt.figure()
 ax1 = fig1.add_subplot(111)
 dataHist = ax1.bar(range(0,40),data,alpha=0.3)
 ax1.set_xlabel(r'$E_R$ (in keV)')
 ax1.set_ylabel('Number of events')
 ax1.set_title('Experimental Data and Expected Background')
-'''
+
 #plot background histogram
 
 bgEvents = []
 for e in range(0,40):
 	bgEvents.append(background(e+0.5))
-#bgHist = ax1.bar(range(0,40),bgEvents,alpha=0.3, color = 'yellow')
-#ax1.legend((dataHist[0], bgHist[0]), ('Data', 'Background'))
+bgHist = ax1.bar(range(0,40),bgEvents,alpha=0.3, color = 'yellow')
+ax1.legend((dataHist[0], bgHist[0]), ('Data', 'Background'))
 #plt.show()
 
 #plotting mean signal events
@@ -71,8 +71,8 @@ for s in sigma:
 	ax2.set_title(r'Signal Events $\sigma=%5.2ffb$'%(s))
 	ax2.set_xlabel(r'$E_R$ (in keV)')
 	ax2.set_ylabel('Number of events')
-plt.show()
 '''
+
 #plot log likelihood
 sig = np.linspace(0,2,500)
 fig3 = plt.figure()
@@ -94,4 +94,18 @@ plt.annotate('$\hat \sigma = %5.4f$' %(max_sig), xy=(max_sig, logL_max), xytext=
             arrowprops=dict(facecolor='black', width = 1, headwidth = 6)
             )
 plt.figtext(0.68, .82, 'Error interval\n[%5.4f,%5.4f]' %(root1,root2),fontsize = 14)
+
+#plt.show()
+fig4 = plt.figure()
+ax4 = fig4.add_subplot(111)
+meanSigEvents = []
+for e in range(0,40):
+	meanSigEvents.append(signal(max_sig,e+0.5))
+	print signal(max_sig,e+0.5)
+for i in range(0, len(bgEvents)):
+	meanSigEvents[i] = meanSigEvents[i] + bgEvents[i]
+meanSigHist = ax4.bar(range(0,40),meanSigEvents,alpha=0.6, color = 'red')
+ax4.set_title(r'Signal Events $\sigma=%5.3ffb$'%(max_sig))
+ax4.set_xlabel(r'$E_R$ (in keV)')
+ax4.set_ylabel('Number of events')
 plt.show()
