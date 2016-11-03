@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import matplotlib.mlab as mlab
 import numpy as np
 import math
 
@@ -34,9 +33,6 @@ best_fit_error = f(data,slope,intercept)
 best_fit_error = math.sqrt(best_fit_error / len(data))
 print "Best estimate for length of the rod at 0 degrees Celsius is %5.2f mm" %(intercept)
 print "Coefficient of linear expansion is %5.2f mm/K" %(slope)
-print "Error on prediction: %5.2f mm" %(best_fit_error)
-
-#calculating
 
 # Plot best-fit line
 fig1 = plt.figure()
@@ -72,20 +68,20 @@ sigmasq = best_fit_error ** 2
 A, H, B, G, F, C = xsq, 2*xsum, len(data), -2*xy, -2*ysum, ysq - sigmasq*len(data)
 assert H**2 - 4*A*B < 0
 
-CS = ax2.contour(x, y,(A*x**2 + H*x*y + B*y**2 + G*x + F*y + C), levels=[sigmasq,2*sigmasq], colors=['r','b'])
+CS = ax2.contour(x, y,(A*x**2 + H*x*y + B*y**2 + G*x + F*y + C), levels=[2*sigmasq,4*sigmasq], colors=['r','b'])
 ax2.set_xlabel('m')
 ax2.set_ylabel('c')
 #making the legend
 labels = ['1-sigma', '2-sigma']
 for i in range(len(labels)):
     CS.collections[i].set_label(labels[i])
-ax2.legend(loc='upper left')
+ax2.legend(loc='upper right')
 
 #for m error interval
 coeff = []
 coeff.append(A)
 coeff.append(H*intercept + G)
-coeff.append(B*intercept**2 + F*intercept + C - sigmasq)
+coeff.append(B*intercept**2 + F*intercept + C - 2*sigmasq)
 m12 = np.roots(coeff)
 m1 = min(m12[0],m12[1])
 m2 = max(m12[0],m12[1])
@@ -94,7 +90,7 @@ print ("Error interval for m is [%5.2f,%5.2f]")%(m1,m2)
 coeff = []
 coeff.append(B)
 coeff.append(H*slope + F)
-coeff.append(A*slope**2 + G*slope + C - sigmasq)
+coeff.append(A*slope**2 + G*slope + C - 2*sigmasq)
 c12 = np.roots(coeff)
 c1 = min(c12[0],c12[1])
 c2 = max(c12[0],c12[1])
