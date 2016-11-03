@@ -84,12 +84,14 @@ ax3.set_ylabel(r'$\ln L$')
 
 max_sig = fmin(lambda sig: -logL(sig), 0.1) #searches for minima in -logL, equivalent to maxima in logL
 logL_max = logL(max_sig)
-plt.figtext(0.7, .82, '$\hat \sigma = %5.4f$' %(max_sig),fontsize = 14)
 root1 = fsolve(logLsig,0.1)
 root2 = fsolve(logLsig,0.3)
 ax3.set_xlim(0, 2)
 ax3.set_ylim(59600, 61000)
 ax3.plot([root1,root1],[logL(root1),0],ls='--',color='red')
 ax3.plot([root2,root2],[logL(root2),0],ls='--',color='red')
-
+plt.annotate('$\hat \sigma = %5.4f$' %(max_sig), xy=(max_sig, logL_max), xytext=(.5, logL_max + 200),fontsize = 14,
+            arrowprops=dict(facecolor='black', width = 1, headwidth = 6)
+            )
+plt.figtext(0.68, .82, 'Error interval\n[%5.4f,%5.4f]' %(root1,root2),fontsize = 14)
 plt.show()
