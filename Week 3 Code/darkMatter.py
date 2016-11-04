@@ -6,7 +6,7 @@ from scipy.optimize import fmin,fsolve
 from scipy import stats
 
 # Define data path and initialize variables
-DATA = '/Users/sankalpgaur/Desktop/Betu/IIT Bombay/Academics/Sem3/EP219/assignment_3_EP219/recoilenergydata_EP219.csv'
+DATA = './recoilenergydata_EP219.csv'
 data = []; num = 0; den = 0.0
 
 def signal(sigma,Er):
@@ -74,7 +74,7 @@ for s in sigma:
 	ax2.set_title(r'Signal Events $\sigma=%5.2ffb$'%(s))
 	ax2.set_xlabel(r'$E_R$ (in keV)')
 	ax2.set_ylabel('Number of events')
- 
+
 
 #plot log likelihood
 sig = np.linspace(0,2,500)
